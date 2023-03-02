@@ -1,0 +1,11 @@
+LICENSE
+README.md
+setup.py
+copulogram/Copulogram.py
+copulogram/NonParametricModel.py
+copulogram/__init__.py
+copulogram.egg-info/PKG-INFO
+copulogram.egg-info/SOURCES.txt
+copulogram.egg-info/dependency_links.txt
+copulogram.egg-info/requires.txt
+copulogram.egg-info/top_level.txt

@@ -6,6 +6,7 @@ Copyright (C) EDF 2023
 @author: Elias Fekhari
 """
 
+
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -49,31 +50,50 @@ class Copulogram:
             color='C0',
             alpha=1.,
             hue=None,
-            hue_palette="viridis",
+            hue_palette=None,
             kde_on_marginals=True,
             quantile_contour_levels=[0.1, 0.25, 0.5, 0.75, 0.9],
+            save_file=None
             ):
         """
         Draws the copulogram plot with a static or interactive option. 
 
         Parameters
         ----------
-        kde_on_marginals : Bool
+        color : string
+            The matplotlib color on every element of the graph as long as "hue" is None.
+        alpha : float
+            The alpha blending value, between 0 (transparent) and 1 (opaque).
+        hue : string
+            Grouping variable that will produce points with different colors. 
+            Can be either categorical or numeric, although color mapping will behave differently in latter case.
+        hue_palette : string
+            Method for choosing the colors to use when mapping the hue semantic. 
+            By default "tab10" for categorical mapping, and "viridis" for continuous mapping.
+        kde_on_marginals : boolean
             Defines the type of plot on the diagonal. Histogram when 
             the variable is set to False, kernel density estimation otherwise.
         quantile_contour_levels : 1-d list of floats
             When the variable takes a value, the contours of the quantiles 
             defined by the variable are plotted.
-
+        save_file : string 
+            When this variable is not None, it saves the plot in the current repertory.
+        
         Returns
         -------
-        copulogram : TBD
+        copulogram : matplotlib.axes.Axes
+            The matplotlib axes containing the plot.
         """
         df = self.data.copy(deep=True)
         df_numeric = df._get_numeric_data()
         plotted_cols = np.array(df_numeric.columns)
         plotted_cols = np.delete(plotted_cols, np.where(plotted_cols == hue)).tolist()
         if hue is not None:
+            if hue_palette is None:
+                if df[hue].dtype =='O':
+                    hue_palette = 'tab10'
+                else:
+                    hue_palette='viridis'
             copulogram = sns.PairGrid(df[plotted_cols + [hue]], hue=hue)
             if kde_on_marginals:
                 copulogram.map_diag(sns.kdeplot, hue=None, color=".3")
@@ -94,6 +114,8 @@ class Copulogram:
             temp = df_numeric.rank() / self.N * df_numeric.max().values
             copulogram.data = temp
             copulogram = copulogram.map_upper(plt.scatter, color=color, alpha=alpha)
+        if save_file is not None:
+            plt.savefig(save_file, dpi=300)
         return copulogram
 
     def draw_interactive(self, 
@@ -117,3 +139,9 @@ class Copulogram:
         """
 
         return None
+
+## TODO
+# Include contours
+# Finish 
+# Add interactive aspect
+# 
