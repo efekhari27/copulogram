@@ -53,7 +53,9 @@ class Copulogram:
             hue_palette=None,
             kde_on_marginals=True,
             quantile_contour_levels=[0.1, 0.25, 0.5, 0.75, 0.9],
-            save_file=None
+            save_file=None,
+            markers='o',
+            subplot_size=2.5
             ):
         """
         Draws the copulogram plot with a static or interactive option. 
@@ -78,6 +80,10 @@ class Copulogram:
             defined by the variable are plotted.
         save_file : string 
             When this variable is not None, it saves the plot in the current repertory.
+        markers : string
+            Defines the scatterplots markers according to Matplotlib formalism.
+        subplot_size : float
+            Defines the size of each subplot in inches.
         
         Returns
         -------
@@ -94,26 +100,27 @@ class Copulogram:
                     hue_palette = 'tab10'
                 else:
                     hue_palette='viridis'
-            copulogram = sns.PairGrid(df[plotted_cols + [hue]], hue=hue)
+            copulogram = sns.PairGrid(df[plotted_cols + [hue]], hue=hue, palette=hue_palette, height=subplot_size)
             if kde_on_marginals:
                 copulogram.map_diag(sns.kdeplot, hue=None, color=".3")
             else:
                 copulogram.map_diag(sns.histplot, hue=None, color=".3", bins=20)
-            copulogram.map_lower(sns.scatterplot, palette=hue_palette, alpha=alpha)
+            copulogram.map_lower(sns.scatterplot, alpha=alpha, marker=markers)
             temp = df_numeric[plotted_cols].rank() / self.N * df_numeric[plotted_cols].max().values
             temp[hue] = df[hue]
             copulogram.data = temp
-            copulogram = copulogram.map_upper(sns.scatterplot, palette=hue_palette, alpha=alpha)
+            copulogram = copulogram.map_upper(sns.scatterplot, alpha=alpha, marker=markers)
+            copulogram.add_legend(title=hue)
         else : 
-            copulogram = sns.PairGrid(df_numeric)
+            copulogram = sns.PairGrid(df_numeric, height=subplot_size)
             if kde_on_marginals:
                 copulogram.map_diag(sns.kdeplot, hue=None, color=color)
             else:
                 copulogram.map_diag(sns.histplot, hue=None, color=color, bins=20)
-            copulogram.map_lower(plt.scatter, color=color, alpha=alpha)
+            copulogram.map_lower(plt.scatter, color=color, alpha=alpha, marker=markers)
             temp = df_numeric.rank() / self.N * df_numeric.max().values
             copulogram.data = temp
-            copulogram = copulogram.map_upper(plt.scatter, color=color, alpha=alpha)
+            copulogram = copulogram.map_upper(plt.scatter, color=color, alpha=alpha, marker=markers)
         if save_file is not None:
             plt.savefig(save_file, dpi=300)
         return copulogram
@@ -142,6 +149,5 @@ class Copulogram:
 
 ## TODO
 # Include contours
-# Finish 
 # Add interactive aspect
 # 

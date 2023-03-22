@@ -1,4 +1,0 @@
-pandas
-seaborn
-matplotlib
-openturns>=1.17

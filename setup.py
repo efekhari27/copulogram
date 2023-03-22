@@ -35,7 +35,7 @@ setup(
     license='LGPLv3+',
     author="Elias Fekhari, Vincent Chabridon",
     author_email='elias.fekhari@edf.fr',
-    packages=['copulogram', 'test'],
+    packages=['copulogram'],
     url='https://github.com/efekhari27/copulogram',
     keywords=['OpenTURNS', 'Copula'],
     description="Data visualization for multivariate datasets with a nonlinear dependence structure",

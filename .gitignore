@@ -1,0 +1,66 @@
+# Default cache directories
+/*_cache/
+/cache/
+/*__pycache__/
+examples/*__pycache__/
+copulogram/*__pycache__/
+doc/examples/__pycache__/
+
+# ~ files
+*~
+*\#
+
+#Jupyter notebook data
+*.ipynb_checkpoints
+
+#Compilation products
+build*/
+copulogram.egg-info*/
+dist*/
+install/
+*_generated/
+doc/auto_example
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+copulogram.egg-info/*
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Sphinx documentation
+docs/_build/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+
