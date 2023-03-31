@@ -52,9 +52,9 @@ class Copulogram:
             hue=None,
             hue_palette=None,
             kde_on_marginals=True,
-            quantile_contour_levels=[0.1, 0.25, 0.5, 0.75, 0.9],
+            quantile_contour_levels=None,
             save_file=None,
-            markers='o',
+            marker='o',
             subplot_size=2.5
             ):
         """
@@ -80,7 +80,7 @@ class Copulogram:
             defined by the variable are plotted.
         save_file : string 
             When this variable is not None, it saves the plot in the current repertory.
-        markers : string
+        marker : string
             Defines the scatterplots markers according to Matplotlib formalism.
         subplot_size : float
             Defines the size of each subplot in inches.
@@ -94,7 +94,24 @@ class Copulogram:
         df_numeric = df._get_numeric_data()
         plotted_cols = np.array(df_numeric.columns)
         plotted_cols = np.delete(plotted_cols, np.where(plotted_cols == hue)).tolist()
-        if hue is not None:
+        if hue is None:
+            copulogram = sns.PairGrid(df_numeric, height=subplot_size)
+            if kde_on_marginals:
+                copulogram.map_diag(sns.kdeplot, hue=None, color=color)
+            else:
+                copulogram.map_diag(sns.histplot, hue=None, color=color, bins=20)
+
+            if quantile_contour_levels is None:
+                copulogram.map_lower(plt.scatter, color=color, alpha=alpha, marker=marker)
+                temp = df_numeric.rank() / self.N * df_numeric.max().values
+                copulogram.data = temp
+                copulogram = copulogram.map_upper(plt.scatter, color=color, alpha=alpha, marker=marker)
+            else:
+                copulogram.map_lower(sns.kdeplot, levels=quantile_contour_levels, color=color)
+                temp = df_numeric.rank() / self.N * df_numeric.max().values
+                copulogram.data = temp
+                copulogram.map_upper(sns.kdeplot, levels=quantile_contour_levels, color=color)
+        else : 
             if hue_palette is None:
                 if df[hue].dtype =='O':
                     hue_palette = 'tab10'
@@ -105,24 +122,24 @@ class Copulogram:
                 copulogram.map_diag(sns.kdeplot, hue=None, color=".3")
             else:
                 copulogram.map_diag(sns.histplot, hue=None, color=".3", bins=20)
-            copulogram.map_lower(sns.scatterplot, alpha=alpha, marker=markers)
-            temp = df_numeric[plotted_cols].rank() / self.N * df_numeric[plotted_cols].max().values
-            temp[hue] = df[hue]
-            copulogram.data = temp
-            copulogram = copulogram.map_upper(sns.scatterplot, alpha=alpha, marker=markers)
-            copulogram.add_legend(title=hue)
-        else : 
-            copulogram = sns.PairGrid(df_numeric, height=subplot_size)
-            if kde_on_marginals:
-                copulogram.map_diag(sns.kdeplot, hue=None, color=color)
+            
+            if quantile_contour_levels is None:
+                copulogram.map_lower(sns.scatterplot, alpha=alpha, marker=marker)
+                temp = df_numeric[plotted_cols].rank() / self.N * df_numeric[plotted_cols].max().values
+                temp[hue] = df[hue]
+                copulogram.data = temp
+                copulogram = copulogram.map_upper(sns.scatterplot, alpha=alpha, marker=marker)
             else:
-                copulogram.map_diag(sns.histplot, hue=None, color=color, bins=20)
-            copulogram.map_lower(plt.scatter, color=color, alpha=alpha, marker=markers)
-            temp = df_numeric.rank() / self.N * df_numeric.max().values
-            copulogram.data = temp
-            copulogram = copulogram.map_upper(plt.scatter, color=color, alpha=alpha, marker=markers)
+                copulogram.map_lower(sns.kdeplot, levels=quantile_contour_levels)
+                temp = df_numeric[plotted_cols].rank() / self.N * df_numeric[plotted_cols].max().values
+                temp[hue] = df[hue]
+                copulogram.data = temp
+                copulogram = copulogram.map_upper(sns.kdeplot, levels=quantile_contour_levels)
+
+            copulogram.add_legend(title=hue)
+
         if save_file is not None:
-            plt.savefig(save_file, dpi=300)
+            plt.savefig(save_file, dpi=300, bbox_inches='tight')
         return copulogram
 
     def draw_interactive(self, 
