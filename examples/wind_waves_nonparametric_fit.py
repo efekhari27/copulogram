@@ -12,17 +12,9 @@ import openturns as ot
 import copulogram as cp
 
 
-df_processed = pd.read_csv('data/df_ANEMOC_1H.csv')
-all_indexes = df_processed.index.values
-saved_columns = ['θ_wind (deg)', 'U_hub (m/s)', 'θ_wave_new (deg)', 'Hs (m)', 'Tp (s)']
-df = df_processed.loc[:, saved_columns]
-
-# Monte Carlo sub-sample to make the plots and the fits faster
-N = 10000
-subsampled_indexes = np.random.choice(all_indexes, N, replace=False)
-data = df.loc[subsampled_indexes, saved_columns]
-new_columns = ["$\\theta_{wind}$", "$U$", "$\\theta_{wave}$", "$H_s$", "$T_p$"]
-data.columns = new_columns
+data = pd.read_csv('data/wind_waves_ANEMOC_1H.csv', index_col=0)
+data.columns = ["$\\theta_{wind}$", "$U$", "$\\theta_{wave}$", "$H_s$", "$T_p$"]
+N = data.shape[0]
 # Draw static copulogram on data
 copulogram = cp.Copulogram(data, latex=True)
 alpha = 0.1
@@ -43,7 +35,7 @@ Tp_kde = kernel.build(Tp_data[:2000], silverman_kw)
 
 WaveDir_data = ot.Sample(data["$\\theta_{wave}$"].values.reshape(-1, 1))
 kernel = ot.KernelSmoothing()
-mixed_kw = kernel.computeMixedBandwidth(WaveDir_data[:1000])
+mixed_kw = kernel.computeMixedBandwidth(WaveDir_data[:2000])
 WaveDir_kde = kernel.build(WaveDir_data[:2000], mixed_kw)
 WaveDir_kde = ot.TruncatedDistribution(WaveDir_kde, 0., 365.)
 

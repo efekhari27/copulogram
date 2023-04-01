@@ -13,6 +13,7 @@ import copulogram as cp
 
 # 
 data = pd.read_csv("data/wind_waves_ANEMOC_1H.csv", index_col=0)
+data = data.iloc[:1000]
 
 # Draw static copulogram on data
 data.columns = ["$\\theta_{wind}$", "$U$", "$\\theta_{wave}$", "$H_s$", "$T_p$"]
