@@ -15,13 +15,11 @@ import matplotlib.pyplot as plt
 
 # Interactive imports
 from itertools import product
-from bokeh.io import show
 from bokeh.layouts import gridplot
 from bokeh.models import (BasicTicker, Circle, ColumnDataSource,
                           DataRange1d, Grid, LassoSelectTool, LinearAxis,
                           Plot, ResetTool)
 from bokeh.transform import factor_cmap, linear_cmap
-from bokeh.palettes import Category10, Viridis
 
 
 class Copulogram:
@@ -108,9 +106,9 @@ class Copulogram:
         if hue is None:
             copulogram = sns.PairGrid(df_numeric, height=subplot_size)
             if kde_on_marginals:
-                copulogram.map_diag(sns.kdeplot, hue=None, color=color)
+                copulogram.map_diag(sns.kdeplot, color=color)
             else:
-                copulogram.map_diag(sns.histplot, hue=None, color=color, bins=20)
+                copulogram.map_diag(sns.histplot, color=color, bins=20)
 
             if quantile_contour_levels is None:
                 copulogram.map_lower(plt.scatter, color=color, alpha=alpha, marker=marker)
@@ -130,9 +128,15 @@ class Copulogram:
                     hue_palette='viridis'
             copulogram = sns.PairGrid(df[plotted_cols + [hue]], hue=hue, palette=hue_palette, height=subplot_size)
             if kde_on_marginals:
-                copulogram.map_diag(sns.kdeplot, hue=None, color=".3")
+                if df[hue].dtype =='O':
+                    copulogram.map_diag(sns.kdeplot, color=".3")
+                else:
+                    copulogram.map_diag(sns.kdeplot, hue=None, color=".3")
             else:
-                copulogram.map_diag(sns.histplot, hue=None, color=".3", bins=20)
+                if df[hue].dtype =='O':
+                    copulogram.map_diag(sns.histplot, color=".3", bins=20)
+                else:
+                    copulogram.map_diag(sns.histplot, hue=None, color=".3", bins=20)
             
             if quantile_contour_levels is None:
                 copulogram.map_lower(sns.scatterplot, alpha=alpha, marker=marker)
@@ -250,10 +254,8 @@ class Copulogram:
             p.add_tools(LassoSelectTool(), ResetTool())
             plot_list.append(p)
 
-        gridp = gridplot(plot_list, ncols=dim)
-        show(gridp)
-
-        return None
+        grid_plot = gridplot(plot_list, ncols=dim)
+        return grid_plot
 
 ##TODO:
 # Add docstrings
