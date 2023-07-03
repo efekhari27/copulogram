@@ -31,4 +31,6 @@ data.columns = ["$\\theta_{wind}$", "$U$", "$\\theta_{wave}$", "$H_s$", "$T_p$",
 # Draw static copulogram on data
 copulogram = cp.Copulogram(data, latex=True)
 copulogram.draw(color="C7", hue="output", alpha=alpha, kde_on_marginals=False, save_file="figures/wind_waves_woutput.jpg", marker="o")
+# Draw interactive copulogram on data
+copulogram.draw_interactive(color="C7", hue="output", alpha=0.8)
 
