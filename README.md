@@ -15,9 +15,7 @@ A *copulogram* is an innovative plot as it decomposes a mutivariate dataset betw
 
 The following commands install the current version of the copulogram package.
 ```
-~$ git pull https://github.com/efekhari27/copulogram
-~$ cd copulogram
-~$ pip install -e .
+~$ pip install copulogram
 ```
 
 ## Example on iris dataset
