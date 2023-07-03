@@ -45,8 +45,8 @@ setup(
           "pandas",
           "seaborn",
           "matplotlib",
-          "openturns>=1.17", 
-          "bokeh",
+          "openturns>=1.20", 
+          "bokeh>=3.2",
       ],
     include_package_data=True,
     classifiers=[

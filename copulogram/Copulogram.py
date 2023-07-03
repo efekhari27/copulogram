@@ -212,7 +212,7 @@ class Copulogram:
             # Lower triangle
             if (i%dim) <= (i//dim): # Column index smaller than row index (i.e., lower triangle)
                 # Define one empty plot
-                p = Plot(x_range=DataRange1d((df[x].min(), df[x].max())), y_range=DataRange1d((df[y].min(), df[y].max())),
+                p = Plot(x_range=DataRange1d(bounds=(df[x].min(), df[x].max())), y_range=DataRange1d(bounds=(df[y].min(), df[y].max())),
                         background_fill_color="#fafafa",
                         border_fill_color="white", width=200, height=200, min_border=subplot_size)
                 r = p.add_glyph(source, circle)
@@ -223,7 +223,7 @@ class Copulogram:
             # Upper triangle
             elif (i%dim) > (i//dim): 
                 # Define one empty plot
-                p = Plot(x_range=DataRange1d((rdf[x].min(), rdf[x].max())), y_range=DataRange1d((rdf[y].min(), rdf[y].max())),
+                p = Plot(x_range=DataRange1d(bounds=(rdf[x].min(), rdf[x].max())), y_range=DataRange1d(bounds=(rdf[y].min(), rdf[y].max())),
                         background_fill_color="#fafafa",
                         border_fill_color="white", width=200, height=200, min_border=5)
                 r = p.add_glyph(rsource, circle)
