@@ -112,7 +112,10 @@ class Copulogram:
 
             if quantile_contour_levels is None:
                 copulogram.map_lower(plt.scatter, color=color, alpha=alpha, marker=marker)
-                temp = df_numeric.rank() / self.N * df_numeric.max().values
+                temp = (df_numeric.rank() / self.N)
+                xmaxs = df_numeric.max().values
+                xmins = df_numeric.min().values
+                temp = temp * (xmaxs - xmins) + xmins
                 copulogram.data = temp
                 copulogram = copulogram.map_upper(plt.scatter, color=color, alpha=alpha, marker=marker)
             else:
@@ -140,7 +143,11 @@ class Copulogram:
             
             if quantile_contour_levels is None:
                 copulogram.map_lower(sns.scatterplot, alpha=alpha, marker=marker)
-                temp = df_numeric[plotted_cols].rank() / self.N * df_numeric[plotted_cols].max().values
+                #temp = df_numeric[plotted_cols].rank() / self.N * df_numeric[plotted_cols].max().values
+                temp = (df_numeric[plotted_cols].rank() / self.N)
+                xmaxs = df_numeric[plotted_cols].max().values
+                xmins = df_numeric[plotted_cols].min().values
+                temp = temp * (xmaxs - xmins) + xmins
                 temp[hue] = df[hue]
                 copulogram.data = temp
                 copulogram = copulogram.map_upper(sns.scatterplot, alpha=alpha, marker=marker)
