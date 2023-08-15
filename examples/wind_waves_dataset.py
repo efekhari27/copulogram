@@ -31,9 +31,18 @@ copulogram.draw(color="C7", kde_on_marginals=False, quantile_contour_levels=[0.2
 output = data["$U$"] ** 3 * ((np.pi / 180) * data["$\\theta_{wind}$"]) + (data["$H_s$"] ** 2 * data["$T_p$"]) / ((np.pi / 180) * data["$\\theta_{wave}$"])  
 data['output'] = np.log10(output)
 data.columns = ["$\\theta_{wind}$", "$U$", "$\\theta_{wave}$", "$H_s$", "$T_p$", "output"]
-# Draw static copulogram on data
+
+# Draw copulogram on data
 copulogram = cp.Copulogram(data, latex=True)
-copulogram.draw(color="C7", hue="output", alpha=alpha, kde_on_marginals=False, save_file="figures/wind_waves_woutput.jpg", marker="o")
-# Draw interactive copulogram on data
-#interactive_plot = copulogram.draw_interactive(color="C7", hue="output", alpha=0.8)
-#show(interactive_plot)
+copulogram.draw(hue="output", hue_colorbar="plasma", alpha=alpha, marker="o", kde_on_marginals=False, save_file="figures/wind_waves_woutput.jpg")
+
+# Draw threshold event 
+import seaborn as sns
+from matplotlib.colors import to_rgba
+
+threshold = 4.
+data['is_failed'] = "False"
+data.loc[data[data['output'] > threshold].index, 'is_failed'] = "True"
+color_palette = sns.color_palette([to_rgba('C0', 0.2), to_rgba('C1', 0.9)], as_cmap=True)
+copulogram = cp.Copulogram(data, latex=True)
+copulogram.draw(hue='is_failed', hue_colorbar=color_palette, save_file="figures/wind_waves_threshold.jpg")
