@@ -149,7 +149,7 @@ class Copulogram:
                                         bw_method = self._bw_method,
                                         fill=True,
                                         cumulative=pdf_on_marginals,
-                                        multiple="stack",
+                                        multiple="layer",
                                         legend=False,
                                         common_norm=False,
                                 )
@@ -165,7 +165,7 @@ class Copulogram:
                                         fill=True,
                                         cumulative=pdf_on_marginals,
                                         stat='density',
-                                        multiple="stack",
+                                        multiple="layer",
                                         legend=False,
                                         common_norm=False, 
                                 )

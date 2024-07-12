@@ -29,19 +29,19 @@ Using the famous [iris dataset](https://en.wikipedia.org/wiki/Iris_flower_data_s
 
 >>> data = sns.load_dataset('iris')
 >>> copulogram = cp.Copulogram(data)
->>> copulogram.draw()
+>>> copulogram.draw();
 ```
 
 <img src="examples/figures/iris1.jpg" alt="Copulogram of iris dataset" width="600"/>
 
 ```
->>> copulogram.draw(alpha=0.8, hue='species', kde_on_marginals=False)
+>>> copulogram.draw(alpha=0.8, hue='species', kde_on_marginals=False);
 ```
 
 <img src="examples/figures/iris2.jpg" alt="Copulogram of iris dataset" width="600"/>
 
 ```
->>> copulogram.draw(hue='species', quantile_contour_levels=[0.2, 0.4, 0.6, 0.8])
+>>> copulogram.draw(hue='species', quantile_contour_levels=[0.2, 0.4, 0.6, 0.8]);
 ```
 
 <img src="examples/figures/iris_contours.jpg" alt="Copulogram of iris dataset" width="600"/>

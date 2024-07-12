@@ -8,9 +8,7 @@ Copyright (C) EDF 2023
 
 import pandas as pd 
 import numpy as np
-import openturns as ot
 import copulogram as cp
-from bokeh.io import show
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -25,7 +23,7 @@ copulogram = cp.Copulogram(data, latex=True)
 alpha = 0.3
 marker = "."
 copulogram.draw(color="C7", alpha=alpha, kde_on_marginals=False, save_file="figures/wind_waves.jpg", marker=marker)
-copulogram.draw(color="C7", kde_on_marginals=False, quantile_contour_levels=[0.25, 0.5, 0.75], save_file="figures/wind_waves_contours.jpg")
+copulogram.draw(color="C7", kde_on_marginals=False, quantile_contour_levels=[0.2, 0.4, 0.6, 0.8], save_file="figures/wind_waves_contours.jpg")
 
 # Fake output
 output = data["$U$"] ** 3 * ((np.pi / 180) * data["$\\theta_{wind}$"]) + (data["$H_s$"] ** 2 * data["$T_p$"]) / ((np.pi / 180) * data["$\\theta_{wave}$"])  
