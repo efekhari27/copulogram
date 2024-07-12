@@ -1,6 +1,6 @@
 # Copulogram
 
-This package is provides a new data visualisation tool to explore multivariate datasets developped with V.Chabridon. 
+This package is provides a new data visualisation tool to explore multivariate datasets developped with V. Chabridon. 
 
 A *copulogram* is an innovative plot as it decomposes a mutivariate dataset between the effects of the marginals and those of the dependence between features. To do so, it represents the marginals with univariate kernel density estimation plots or histograms (diagonal), and the dependence structure with scatter plots in the ranked space (upper triangle). On the bottom triangle the scatter plots are set in the physical space, gathering the effects of the marginals and the dependencies. Since the dependence structure is theoretically modeled by an underlying copula, this plot is called *copulogram*, generalizing the well-known ``correlogram'' to nonlinear dependencies. It gives a synthetic and empirical decomposition of the dataset.
 
