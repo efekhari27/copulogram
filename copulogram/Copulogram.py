@@ -142,7 +142,6 @@ class Copulogram:
             ax = self._axs[i, j]
             # Diagonal #############
             if i == j:
-<<<<<<< HEAD
                 if kde_on_marginals:                 
                     sns.kdeplot(data=df, x=df.columns[j], 
                                         hue=hue_diag,
@@ -174,43 +173,6 @@ class Copulogram:
                                         common_norm=False, 
                                 )
                 # Ticker tuning 
-=======
-                if kde_on_marginals:
-                    sns.kdeplot(
-                        data=df,
-                        x=df.columns[j],
-                        hue=hue_diag,
-                        ax=ax,
-                        alpha=alpha,
-                        color=color,
-                        palette=hue_colorbar_diag,
-                        bw_method=self._bw_method,
-                        fill=True,
-                        cumulative=pdf_on_marginals,
-                        multiple="stack",
-                        legend=False,
-                        common_norm=False,
-                    )
-                    ax.set_xlim(xmins[i], xmaxs[i])
-                else:
-                    sns.histplot(
-                        data=df,
-                        x=df.columns[j],
-                        hue=hue_diag,
-                        ax=ax,
-                        alpha=alpha,
-                        color=color,
-                        palette=hue_colorbar_diag,
-                        bins=self._bins,
-                        fill=True,
-                        cumulative=pdf_on_marginals,
-                        stat="density",
-                        multiple="stack",
-                        legend=False,
-                        common_norm=False,
-                    )
-                # Ticker tuning
->>>>>>> 015e0ffad99b40500f52261b338cb5dd45d39985
                 xticks = np.linspace(xmins[j], xmaxs[j], 4)
                 ax.set_xticks(xticks)
                 ax.set_xticklabels(ax.get_xticks(), rotation=90)
