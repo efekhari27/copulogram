@@ -173,7 +173,7 @@ class Copulogram:
                                         common_norm=False, 
                                 )
                 # Ticker tuning 
-                xticks = np.linspace(xmins[j], xmaxs[j], 4)
+                xticks = np.linspace(xmins.iloc[j], xmaxs.iloc[j], 4)
                 ax.set_xticks(xticks)
                 ax.set_xticklabels(ax.get_xticks(), rotation=90)
                 ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.3}"))
@@ -219,8 +219,8 @@ class Copulogram:
                     )
                     ax.collections[0].set_sizes([markersize])
                 # Ticker tuning
-                xticks = np.linspace(xmins[j], xmaxs[j], 4)
-                yticks = np.linspace(xmins[i], xmaxs[i], 4)
+                xticks = np.linspace(xmins.iloc[j], xmaxs.iloc[j], 4)
+                yticks = np.linspace(xmins.iloc[i], xmaxs.iloc[i], 4)
                 ax.set_xticks(xticks)
                 ax.set_yticks(yticks)
                 ax.set_xticklabels(ax.get_xticks(), rotation=90)
